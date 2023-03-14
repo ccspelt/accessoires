@@ -1,0 +1,345 @@
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+
+*,
+*:before,
+*:after{
+    box-sizing:border-box ;
+    place-content: center;
+}
+
+.container{
+    padding-right: 15px ;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (max-width:1280px ){
+    .container{
+        width: 1260px;
+    }
+}
+@media (max-width:1200px ){
+    .container{
+        width: 1140px;
+    }
+}
+@media (max-width:992px ){
+    .container{
+        width: 970px;
+    }
+}
+@media (max-width:768px ){
+    .container{
+        width: 750px;
+    }
+}
+
+.main{
+    display: flex;
+    padding-top: 2%;
+    width: 1260px;
+}
+
+.basis{
+
+   /* background-color: aqua; */
+    display: flex;
+    width: 1260px;
+}
+
+div.letop{
+    display: flex;
+    justify-content: center;
+    
+}
+
+.inletop{
+    border:2px solid black;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 5px 20px;
+    
+}
+
+h1.letop{
+    font-size: 24px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+
+img.letop{
+    height: 37px;
+    width: 49px;
+}
+
+div.menu{
+    display:flex;
+    align-items: center;
+
+}
+
+div.inmenu{
+    display:flex;
+    align-items: center;
+
+}
+
+div.lowmenu-low{
+    display: flex;
+    justify-content: space-around;
+
+}
+div.tele{
+    background: #000;
+    text-align: center;
+    padding: 10px 20px;
+    position: relative;
+    min-height: 54px;
+    width: 50%;
+
+}
+
+div.last::after{
+    content: '';
+    background-color: #626262;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    bottom: -25px;
+    right:0px;
+    z-index: -1;
+}
+
+div.telebus{
+
+    border-radius: 0px 25px 0px 0px  ;
+}
+
+div.tele a{
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+ul.menu{
+    display: flex;
+    justify-content: space-between;
+}
+
+ul.menu li{
+    display:flex;
+    align-items: center;
+    font-weight: bold;
+    padding: 5px 8px;
+}
+
+.menu li a{
+    position: relative;
+    color: #333;
+    font-size: 18px;
+    font-weight: bolder;
+    display: flex;
+    align-items: center;
+ 
+}
+
+div.logo{
+    background-color: #f7b000;
+    border-radius: 0px 0px 0px 25px  ;
+
+}
+
+div.logo::before{
+    content: '';
+    background-color: black;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    bottom: 0px;
+    left: 0;
+    z-index: -1;
+}
+
+
+.lowmenu-top{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.topmenu{
+    background: #626262;
+    padding: 10px 20px;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    line-height: 1;
+    font-weight: bold;
+    position: relative;
+    min-height: 75px;
+
+}
+
+.topmenu:hover{
+    background-color: red;
+}
+
+.topmenu div{
+    color: #fff;
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+.last h1{
+    color: #fff;
+
+}
+
+.last{
+    display: flex;
+}
+
+.last img{
+    max-width: 100%;
+    width: 32px;
+    height: 32;
+}
+
+.menu li a::after{
+    position: absolute;
+    content: " ";
+    height: 80%;
+    border-right: 2px solid #f7b000;
+    display: inline-block;
+    right: -10px;
+ 
+}
+
+.products{
+    display: flex;
+    width: 90%;
+    padding-left: 5px;
+    flex-wrap: wrap;
+    height: max-content;
+
+}
+
+.product{
+    width: 32.33%;
+    height: auto;
+    margin-left: 1px;
+
+}
+.acc_img{
+    margin-top: 10px;
+    align-self: center;
+border-radius: 20px 20px 20px 20px;
+    width: 1260px;
+}
+
+img{
+vertical-align: middle;
+
+}
+.banner{
+    display: flex;
+}
+.menu-sort{
+    background-color: #dbfbfc;
+    display: flex;
+    padding-left: 7px;
+    padding-top: 4px;
+    bottom: 0px;
+    border-radius: 14px;
+    width: 15%;
+    overflow-y: scroll;
+    height:400px
+    
+}
+
+input.merk{
+    padding-left: 50px;
+}
+.sort{
+    position: sticky;
+    display: flex;
+    height: 80px;
+}
+
+.merk_label{
+    display: block;
+    position: relative;
+    padding-left: 55px;
+    margin-bottom: 12px;
+
+}
+  
+.merk_label input{
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.check{
+    position: absolute;
+    top: 0;
+    left: 0px;
+    height: 25px;
+    width: 50px;
+    background-color: white;
+    border-radius: 16px;
+    transition:  0.4s;
+}
+
+.merk_label:hover input ~ .check {
+    background-color: #efeeee;
+    transition: 0s;
+}
+
+.merk_label input:checked ~ .check{
+    background-color: #ef1d1e;
+    transition: 0.8s;
+}
+
+.check:after {
+    content: "";
+    position: absolute;
+    display: none;
+    transition: 0s;
+}
+
+
+.sort .check:after {
+    display: block;
+    top: 8px;
+   left: 9;
+   width: 9px;
+   height: 9px;
+   border-radius: 50%;
+   background: #ef1d1e;
+   transition:  0.8s;
+}
+
+.sort input:checked ~ .check:after {
+    display: block;
+    top: 8px;
+   left: 30px;
+   width: 9px;
+   height: 9px;
+   border-radius: 50%;
+   background: white;
+   transition:  0.8s;
+}
