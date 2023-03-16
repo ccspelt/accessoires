@@ -256,14 +256,18 @@ vertical-align: middle;
 .banner{
     display: flex;
 }
+
+.menus{
+    width: 15%;
+
+}
 .menu-sort{
     background-color: #dbfbfc;
     display: flex;
-    padding-left: 7px;
-    padding-top: 4px;
-    bottom: 0px;
+    padding:4px 0 40px 7px ;
+    bottom: 14px;
     border-radius: 14px;
-    width: 15%;
+    width: 100%;
     overflow-y: scroll;
     height:400px
     
@@ -273,7 +277,6 @@ input.merk{
     padding-left: 50px;
 }
 .sort{
-    position: sticky;
     display: flex;
     height: 80px;
 }

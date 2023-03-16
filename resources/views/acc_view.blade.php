@@ -19,8 +19,13 @@
 <div class="main">
     
     <div class="basis">
+      <div class="menus"> 
       <div class="menu-sort">
         @livewire('sort') <!-- filter of sorteren-->
+      </div>
+      <div class="menu-sort">
+        @livewire('sort-type')
+      </div>
       </div>
       <div class="products">
       @livewire('producten') <!-- producten die je moet zien-->

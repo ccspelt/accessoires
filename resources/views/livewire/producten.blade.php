@@ -55,10 +55,10 @@ else{
         <div class="product">
         
         <?php 
-
-        echo '<a href=https://www.youtube.com/watch?v=sI0VSWzK8qU&t=5s&ab_channel=spoonkid2> <img src=' . $product->url . '></a>' ;
         echo "<b>" . $product->model . "</b>";
+        echo '<a href=https://www.youtube.com/watch?v=sI0VSWzK8qU&t=5s&ab_channel=spoonkid2> <img src=' . $product->url . '></a>' ;
         ?>
+        
         </div>
         @endforeach
     
