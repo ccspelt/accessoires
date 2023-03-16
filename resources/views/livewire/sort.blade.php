@@ -8,27 +8,66 @@ use Illuminate\Support\Facades\DB;
             ->orderBy('brand')
             ->get();//dit pakt alleen de brand waar van stock er is.       
     $checkmerk= '';//niet weg halen anders doet de code het niet meer
+    $checkmodel='';
 if(!$_GET){
-    $zetcheck='';
+    $zetcheckmerk='';
+    $zetcheckmodel='';
 }
-else{
-    $zetcheck = implode(" ",explode("|",$_GET['merk']));
+elseif(isset($_GET['model']) && isset($_GET['merk'])){
+    $zetcheckmodel = implode(" ",explode("|",$_GET['model']));
+    $zetcheckmerk = implode(" ",explode("|",$_GET['merk']));
+    $models = DB::table('externalproducts')
+    ->select('model', 'supplier_product_code')
+    ->where('product_type','=','Accessoire')
+    ->where('brand','=', $zetcheckmerk)
+    ->where('stock','>', 0)
+    ->orderBy('brand')
+    ->get();
+}
+elseif(isset($_GET['merk'])){
+    $zetcheckmerk = implode(" ",explode("|",$_GET['merk']));
+    $zetcheckmodel='';
+    $models = DB::table('externalproducts')
+    ->select('model', 'supplier_product_code')
+    ->where('product_type','=','Accessoire')
+    ->where('brand','=', $zetcheckmerk)
+    ->where('stock','>', 0)
+    ->orderBy('brand')
+    ->get();
+
+}
+elseif(isset($_GET['model'])){
+    $zetcheckmodel = implode(" ",explode("|",$_GET['model']));
+    $zetcheckmerk='';
+    $models = DB::table('externalproducts')
+    ->select('model', 'supplier_product_code')
+    ->where('product_type','=','Accessoire')
+    ->where('brand','=', $zetcheckmerk)
+    ->where('stock','>', 0)
+    ->orderBy('brand')
+    ->get();
 }
 
-function merk($value, $checkmerk){
+else{
+    $zetcheckmerk = '';
+    $zetcheckmodel='';
+}
+
+function merk($value, $checkmerk, $name){
     echo"
     <div class='phone_brand_wrapper'>    
     <label class='merk_label'> 
-    <input type='checkbox' value=".$value. "   name='merk' class='merk submit'  onClick='submit()';>" .$checkmerk." 
+    <input type='checkbox' value=".$value. "   name=".$name." class='merk submit'  onClick='submit()';>" .$checkmerk." 
     <span class='check'></span>
     </label>
     </div>";
 };
 
-?>
 
+?>
+<div class="menu-sort">
 <div class="sort">
-<form method="get" action="<?php echo ($_SERVER['PHP_SELF']); ?>">
+
     @foreach($product as $merk)
             <?php 
             if($checkmerk == $merk->brand){
@@ -39,11 +78,11 @@ function merk($value, $checkmerk){
 
                 if($checkmerk == 'Sony Ericsson'){}
                 else{
-                        if($zetcheck == $checkmerk){
+                        if($zetcheckmerk == $checkmerk){
                             echo"
                             <div  class='phone_brand_wrapper'>    
                             <label  class='merk_label'> 
-                            <input type='checkbox' value=".$checkmerk.  " checked name='merkt' class='merkt'  onClick='submit()';>" .$checkmerk." 
+                            <input type='checkbox' value=".$checkmerk.  " checked name='merk' class='merk'  onClick='submit()';>" .$checkmerk." 
                             <span  class='check'></span>
                             </label>
                             </div>"; //dit is als die gecheked is
@@ -51,12 +90,52 @@ function merk($value, $checkmerk){
 
                         else{
                             $implode=implode("|", $checkstring);
-                            merk($implode, $checkmerk);
+                            merk($implode, $checkmerk, 'merk');
                         }  
                     }
             }
             ?>
 
     @endforeach
-</form>
+</div>
+</div>
+<div class="menu-sort">
+<div class="sort">
+<?php 
+if(isset($_GET['merk'])){
+
+?>
+@foreach($models as $merk)
+        <?php 
+        if($checkmodel == $merk->model){
+        }
+        else{
+            $checkmodel= $merk->model;
+            $checkstring= explode(" ", $checkmodel);
+
+            
+                    if($zetcheckmodel == $checkmodel){
+                        echo"
+                        <div  class='phone_brand_wrapper'>    
+                        <label  class='merk_label'> 
+                        <input type='checkbox' value=".$checkmodel.  " checked name='model' class='model'  onClick='submit()';>" .$checkmodel." 
+                        <span  class='check'></span>
+                        </label>
+                        </div>"; //dit is als die gecheked is
+                    }
+
+                    else{
+                        $implode=implode("|", $checkstring);
+                        merk($implode, $checkmodel, 'model');
+                    }  
+            
+        }
+        ?>
+
+@endforeach
+<?php
+;}
+?>
+
+</div>
 </div>

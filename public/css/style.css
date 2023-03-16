@@ -258,7 +258,7 @@ vertical-align: middle;
 }
 
 .menus{
-    width: 15%;
+    width: 22%;
 
 }
 .menu-sort{
@@ -277,7 +277,7 @@ input.merk{
     padding-left: 50px;
 }
 .sort{
-    display: flex;
+    /* display: flex; */
     height: 80px;
 }
 

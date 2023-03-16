@@ -20,12 +20,12 @@
     
     <div class="basis">
       <div class="menus"> 
-      <div class="menu-sort">
+      <form method="get" action="<?php echo ($_SERVER['PHP_SELF']); ?>">
+      
         @livewire('sort') <!-- filter of sorteren-->
-      </div>
-      <div class="menu-sort">
-        @livewire('sort-type')
-      </div>
+
+
+      </form>
       </div>
       <div class="products">
       @livewire('producten') <!-- producten die je moet zien-->
