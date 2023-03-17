@@ -10,67 +10,59 @@ use Illuminate\Support\Facades\DB;
     $checkmerk= '';//niet weg halen anders doet de code het niet meer
     $checkmodel='';
     $checkvalue='';
+    function searchproducts($checkmerk){
+        $models = DB::table('externalproducts')
+    ->select('model', 'supplier_product_code')
+    ->where('product_type','=','Accessoire')
+    ->where('brand','=', $checkmerk)
+    ->where('stock','>', 0)
+    ->orderBy('brand')
+    ->get();
+    return $models;
+    };
+    function searchvalues($checkvalue){
+        $values = DB::table('externalproducts')
+    ->select('externalproducts.model', 'externalproducts.supplier_product_code', 'externalproductspecifications.value')
+    ->join('externalproductspecifications','externalproducts.supplier_product_code','=','externalproductspecifications.supplier_product_code')
+    ->where('product_type','=','Accessoire')
+    ->where('brand','=', $checkvalue)
+    ->where('stock','>', 0)
+    ->orderBy('value')
+    ->get();
+    return $values;
+    }
 if(!$_GET){
     $zetcheckmerk='';
     $zetcheckmodel='';
     $zetcheckvalue='';
 }
-elseif(isset($_GET['model']) && isset($_GET['merk'])){
+elseif(isset($_GET['model']) && isset($_GET['merk'])&& isset($_GET['value'])){
     $zetcheckmodel = implode(" ",explode("|",$_GET['model']));
     $zetcheckmerk = implode(" ",explode("|",$_GET['merk']));
     $zetcheckvalue = implode(" ",explode("|",$_GET['value']));
-    $models = DB::table('externalproducts')
-    ->select('model', 'supplier_product_code')
-    ->where('product_type','=','Accessoire')
-    ->where('brand','=', $zetcheckmerk)
-    ->where('stock','>', 0)
-    ->orderBy('brand')
-    ->get();
-    $values = DB::table('externalproducts')
-    ->select('externalproducts.model', 'externalproducts.supplier_product_code', 'externalproductspecifications.value')
-    ->join('externalproductspecifications','externalproducts.supplier_product_code','=','externalproductspecifications.supplier_product_code')
-    ->where('product_type','=','Accessoire')
-    ->where('brand','=', $zetcheckmerk)
-    ->where('stock','>', 0)
-    ->orderBy('value')
-    ->get();
+    $models= searchproducts($zetcheckmerk);
+    $values =searchvalues($zetcheckmerk);
 }
 elseif(isset($_GET['model']) && isset($_GET['merk'])){
     $zetcheckmodel = implode(" ",explode("|",$_GET['model']));
     $zetcheckmerk = implode(" ",explode("|",$_GET['merk']));
     $zetcheckvalue = '';
-    $models = DB::table('externalproducts')
-    ->select('model', 'supplier_product_code')
-    ->where('product_type','=','Accessoire')
-    ->where('brand','=', $zetcheckmerk)
-    ->where('stock','>', 0)
-    ->orderBy('brand')
-    ->get();
+    $models= searchproducts($zetcheckmerk);
+    $values =searchvalues($zetcheckmerk);
 }
 elseif(isset($_GET['merk'])){
     $zetcheckmerk = implode(" ",explode("|",$_GET['merk']));
     $zetcheckmodel='';
     $zetcheckvalue = '';
-    $models = DB::table('externalproducts')
-    ->select('model', 'supplier_product_code')
-    ->where('product_type','=','Accessoire')
-    ->where('brand','=', $zetcheckmerk)
-    ->where('stock','>', 0)
-    ->orderBy('brand')
-    ->get();
+    $models= searchproducts($zetcheckmerk);
 
 }
 elseif(isset($_GET['model'])){
     $zetcheckmodel = implode(" ",explode("|",$_GET['model']));
     $zetcheckmerk='';
     $zetcheckvalue = '';
-    $models = DB::table('externalproducts')
-    ->select('model', 'supplier_product_code')
-    ->where('product_type','=','Accessoire')
-    ->where('brand','=', $zetcheckmerk)
-    ->where('stock','>', 0)
-    ->orderBy('brand')
-    ->get();
+    $models= searchproducts($zetcheckmerk);
+    $values =searchvalues($zetcheckmerk);
 }
 
 else{

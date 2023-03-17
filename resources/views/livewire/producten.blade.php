@@ -25,6 +25,26 @@
     ->limit(51)
     ->get();
 }
+elseif(isset($_GET['merk'])&& isset($_GET['model'])&& isset($_GET['value'])){
+    $zetcheckmerk = explode('|',$_GET['merk']);
+    $implodecheckmerk = implode(" " ,$zetcheckmerk);
+    $zetcheckmodel = explode('|',$_GET['model']);
+    $implodecheckmodel = implode(" ; "  ,$zetcheckmodel);
+    $zetcheckvalue = explode('|',$_GET['value']);
+    $implodecheckvalue = implode(" ; "  ,$zetcheckvalue);
+   
+    $products = DB::table('externalproducts')
+    ->select('externalproducts.brand', 'externalproducts.product_type', 'externalproducts.supplier_product_code', 'externalproducts.model', 'externalproductimages.url', 'externalproductspecifications.value', )
+    ->join('externalproductimages','externalproducts.supplier_product_code','=','externalproductimages.supplier_product_code')
+    ->join('externalproductspecifications','externalproducts.supplier_product_code','=','externalproductspecifications.supplier_product_code')
+    ->where('product_type','=','Accessoire')
+    ->where('stock','>', 0)
+    ->where('brand','=', $implodecheckmerk)
+    ->where('value', '=', $implodecheckvalue)
+    //->where('model', '= ', $implodecheckmodel)
+    ->limit(51)
+    ->get();
+}
 elseif(isset($_GET['merk'])&& isset($_GET['model'])){
     $zetcheckmerk = explode('|',$_GET['merk']);
     $implodecheckmerk = implode(" " ,$zetcheckmerk);
