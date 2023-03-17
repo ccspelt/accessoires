@@ -9,13 +9,36 @@ use Illuminate\Support\Facades\DB;
             ->get();//dit pakt alleen de brand waar van stock er is.       
     $checkmerk= '';//niet weg halen anders doet de code het niet meer
     $checkmodel='';
+    $checkvalue='';
 if(!$_GET){
     $zetcheckmerk='';
     $zetcheckmodel='';
+    $zetcheckvalue='';
 }
 elseif(isset($_GET['model']) && isset($_GET['merk'])){
     $zetcheckmodel = implode(" ",explode("|",$_GET['model']));
     $zetcheckmerk = implode(" ",explode("|",$_GET['merk']));
+    $zetcheckvalue = implode(" ",explode("|",$_GET['value']));
+    $models = DB::table('externalproducts')
+    ->select('model', 'supplier_product_code')
+    ->where('product_type','=','Accessoire')
+    ->where('brand','=', $zetcheckmerk)
+    ->where('stock','>', 0)
+    ->orderBy('brand')
+    ->get();
+    $values = DB::table('externalproducts')
+    ->select('externalproducts.model', 'externalproducts.supplier_product_code', 'externalproductspecifications.value')
+    ->join('externalproductspecifications','externalproducts.supplier_product_code','=','externalproductspecifications.supplier_product_code')
+    ->where('product_type','=','Accessoire')
+    ->where('brand','=', $zetcheckmerk)
+    ->where('stock','>', 0)
+    ->orderBy('value')
+    ->get();
+}
+elseif(isset($_GET['model']) && isset($_GET['merk'])){
+    $zetcheckmodel = implode(" ",explode("|",$_GET['model']));
+    $zetcheckmerk = implode(" ",explode("|",$_GET['merk']));
+    $zetcheckvalue = '';
     $models = DB::table('externalproducts')
     ->select('model', 'supplier_product_code')
     ->where('product_type','=','Accessoire')
@@ -27,6 +50,7 @@ elseif(isset($_GET['model']) && isset($_GET['merk'])){
 elseif(isset($_GET['merk'])){
     $zetcheckmerk = implode(" ",explode("|",$_GET['merk']));
     $zetcheckmodel='';
+    $zetcheckvalue = '';
     $models = DB::table('externalproducts')
     ->select('model', 'supplier_product_code')
     ->where('product_type','=','Accessoire')
@@ -39,6 +63,7 @@ elseif(isset($_GET['merk'])){
 elseif(isset($_GET['model'])){
     $zetcheckmodel = implode(" ",explode("|",$_GET['model']));
     $zetcheckmerk='';
+    $zetcheckvalue = '';
     $models = DB::table('externalproducts')
     ->select('model', 'supplier_product_code')
     ->where('product_type','=','Accessoire')
@@ -53,11 +78,11 @@ else{
     $zetcheckmodel='';
 }
 
-function merk($value, $checkmerk, $name){
+function merk($value, $checkmerk, $name, $check){
     echo"
     <div class='phone_brand_wrapper'>    
     <label class='merk_label'> 
-    <input type='checkbox' value=".$value. "   name=".$name." class='merk submit'  onClick='submit()';>" .$checkmerk." 
+    <input type='checkbox' value=".$value. "   $check name=".$name." class='merk submit'  onClick='submit()';>" .$checkmerk." 
     <span class='check'></span>
     </label>
     </div>";
@@ -75,22 +100,16 @@ function merk($value, $checkmerk, $name){
             else{
                 $checkmerk= $merk->brand;
                 $checkstring= explode(" ", $checkmerk);
-
                 if($checkmerk == 'Sony Ericsson'){}
                 else{
                         if($zetcheckmerk == $checkmerk){
-                            echo"
-                            <div  class='phone_brand_wrapper'>    
-                            <label  class='merk_label'> 
-                            <input type='checkbox' value=".$checkmerk.  " checked name='merk' class='merk'  onClick='submit()';>" .$checkmerk." 
-                            <span  class='check'></span>
-                            </label>
-                            </div>"; //dit is als die gecheked is
+                        
+                            $implode=implode("|", $checkstring);
+                            merk($implode, $checkmerk, 'merk', 'checked'); //dit is als die gecheked is
                         }
-
                         else{
                             $implode=implode("|", $checkstring);
-                            merk($implode, $checkmerk, 'merk');
+                            merk($implode, $checkmerk, 'merk', 'unchecked');
                         }  
                     }
             }
@@ -115,26 +134,50 @@ if(isset($_GET['merk'])){
 
             
                     if($zetcheckmodel == $checkmodel){
-                        echo"
-                        <div  class='phone_brand_wrapper'>    
-                        <label  class='merk_label'> 
-                        <input type='checkbox' value=".$checkmodel.  " checked name='model' class='model'  onClick='submit()';>" .$checkmodel." 
-                        <span  class='check'></span>
-                        </label>
-                        </div>"; //dit is als die gecheked is
+                        $implode=implode("|", $checkstring);
+                        merk($implode, $checkmodel, 'model', 'checked'); //dit is als die gecheked is
                     }
-
                     else{
                         $implode=implode("|", $checkstring);
-                        merk($implode, $checkmodel, 'model');
+                        merk($implode, $checkmodel, 'model', 'unchecked');
                     }  
-            
         }
         ?>
 
 @endforeach
+</div>
+</div>
+<div class="menu-sort">
+<div class="sort">
 <?php
 ;}
+
+if(isset($_GET['model'])){
+
+    ?>
+    @foreach($values as $merk)
+            <?php 
+            if($checkvalue == $merk->value){
+            }
+            else{
+                $checkvalue= $merk->value;
+                $checkstring= explode(" ", $checkvalue);
+    
+                
+                        if($zetcheckvalue == $checkvalue){
+                            $implode=implode("|", $checkstring);
+                            merk($implode, $checkvalue, 'value', 'checked'); //dit is als die gecheked is
+                        }
+                        else{
+                            $implode=implode("|", $checkstring);
+                            merk($implode, $checkvalue, 'value', 'unchecked');
+                        }  
+            }
+            ?>
+    
+    @endforeach
+    <?php
+    ;}
 ?>
 
 </div>
