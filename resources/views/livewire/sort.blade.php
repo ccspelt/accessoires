@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\DB;
     $checkmerk= '';//niet weg halen anders doet de code het niet meer
     $checkmodel='';
     $checkvalue='';
+    
+    
     function searchproducts($checkmerk){
         $models = DB::table('externalproducts')
-    ->select('model', 'supplier_product_code')
+    ->select('externalproducts.model', 'externalproducts.supplier_product_code')
     ->where('product_type','=','Accessoire')
     ->where('brand','=', $checkmerk)
     ->where('stock','>', 0)
@@ -31,6 +33,17 @@ use Illuminate\Support\Facades\DB;
     ->get();
     return $values;
     }
+    function merk($value, $checkmerk, $name, $check){
+        echo"
+        <div class='phone_brand_wrapper'>    
+        <label class='merk_label'> 
+        <input type='checkbox' value=".$value. "   $check name=".$name." class='merk submit'  onClick='submit()';>" .$checkmerk." 
+        <span class='check'></span>
+        </label>
+        </div>";
+    };
+    // Hier boven zijn alle functies die we nodig hebben vort de filter kan mischien beter een functie weer alleen niet hoe.
+
 if(!$_GET){
     $zetcheckmerk='';
     $zetcheckmodel='';
@@ -57,28 +70,13 @@ elseif(isset($_GET['merk'])){
     $models= searchproducts($zetcheckmerk);
 
 }
-elseif(isset($_GET['model'])){
-    $zetcheckmodel = implode(" ",explode("|",$_GET['model']));
-    $zetcheckmerk='';
-    $zetcheckvalue = '';
-    $models= searchproducts($zetcheckmerk);
-    $values =searchvalues($zetcheckmerk);
-}
 
 else{
     $zetcheckmerk = '';
     $zetcheckmodel='';
 }
 
-function merk($value, $checkmerk, $name, $check){
-    echo"
-    <div class='phone_brand_wrapper'>    
-    <label class='merk_label'> 
-    <input type='checkbox' value=".$value. "   $check name=".$name." class='merk submit'  onClick='submit()';>" .$checkmerk." 
-    <span class='check'></span>
-    </label>
-    </div>";
-};
+
 
 
 ?>
@@ -144,7 +142,7 @@ if(isset($_GET['merk'])){
 <?php
 ;}
 
-if(isset($_GET['model'])){
+if(isset($_GET['model'])&& isset($_GET['merk'])){
 
     ?>
     @foreach($values as $merk)
