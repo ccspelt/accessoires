@@ -66,7 +66,7 @@ use Illuminate\Support\Facades\DB;
                 }
         }
     }
-    // Hier boven zijn alle functies die we nodig hebben vort de filter kan mischien beter een functie weer alleen niet hoe.
+    // Hier boven zijn alle functies die we nodig hebben voor de filter kan mischien beter een functie weer alleen niet hoe.
 
 if(!$_GET){
     $zetcheckmerk='';
@@ -96,15 +96,10 @@ elseif(isset($_GET['merk'])){
     $models= searchproducts($zetcheckmerk);
 
 }
-
 else{
     $zetcheckmerk = '';
     $zetcheckmodel='';
 }
-
-
-
-
 ?>
 <div class="menu-sort">
 <div class="sort">
@@ -113,9 +108,7 @@ else{
             <?php
             tabeles($merk->brand,$checkmerk, $zetcheckmerk) ;
             $checkmerk= $merk->brand;
-
             ?>
-
     @endforeach
 </div>
 </div>
@@ -123,15 +116,12 @@ else{
 <div class="sort">
 <?php 
 if(isset($_GET['merk'])){
-
 ?>
 @foreach($models as $merk)
         <?php 
                     tabeles($merk->model,$checkmerk, $zetcheckmodel) ;
                     $checkmodel= $merk->model;
-
         ?>
-
 @endforeach
 </div>
 </div>
@@ -139,7 +129,6 @@ if(isset($_GET['merk'])){
 <div class="sort">
 <?php
 ;}
-
 if(isset($_GET['model'])&& isset($_GET['merk'])){
 
     ?>
@@ -147,21 +136,16 @@ if(isset($_GET['model'])&& isset($_GET['merk'])){
             <?php 
                         tabeles($merk->value,$checkvalue, $zetcheckvalue) ;
                         $checkvalue= $merk->value;
-            
             ?>
-    
     @endforeach
     <?php
     ;}
 ?>
-
 </div>
 </div>
 <div class="menu-sort">
 <div class="sort">
 <?php
-
-
 if(isset($_GET['model'])&& isset($_GET['merk'])){
 
     ?>
@@ -176,6 +160,5 @@ if(isset($_GET['model'])&& isset($_GET['merk'])){
     <?php
     ;}
 ?>
-
 </div>
 </div>
