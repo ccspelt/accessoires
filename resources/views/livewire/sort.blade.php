@@ -22,12 +22,13 @@ use Illuminate\Support\Facades\DB;
     ->get();
     return $models;
     };
-    function searchvalues($checkvalue){
+    function searchvalues($checkvalue, $name, $a){
         $values = DB::table('externalproducts')
-    ->select('externalproducts.model', 'externalproducts.supplier_product_code', 'externalproductspecifications.value')
+    ->select('externalproducts.model', 'externalproducts.supplier_product_code', 'externalproductspecifications.value', 'externalproductspecifications.name')
     ->join('externalproductspecifications','externalproducts.supplier_product_code','=','externalproductspecifications.supplier_product_code')
     ->where('product_type','=','Accessoire')
     ->where('brand','=', $checkvalue)
+    ->where('name', $a, $name)
     ->where('stock','>', 0)
     ->orderBy('value')
     ->get();
@@ -54,14 +55,16 @@ elseif(isset($_GET['model']) && isset($_GET['merk'])&& isset($_GET['value'])){
     $zetcheckmerk = implode(" ",explode("|",$_GET['merk']));
     $zetcheckvalue = implode(" ",explode("|",$_GET['value']));
     $models= searchproducts($zetcheckmerk);
-    $values =searchvalues($zetcheckmerk);
+    $values =searchvalues($zetcheckmerk, 'l', '!=');
+    $kleur= searchvalues($zetcheckmerk, 'kleur' , '=');
 }
 elseif(isset($_GET['model']) && isset($_GET['merk'])){
     $zetcheckmodel = implode(" ",explode("|",$_GET['model']));
     $zetcheckmerk = implode(" ",explode("|",$_GET['merk']));
     $zetcheckvalue = '';
     $models= searchproducts($zetcheckmerk);
-    $values =searchvalues($zetcheckmerk);
+    $values =searchvalues($zetcheckmerk, 'l', '!=' );
+    $kleur= searchvalues($zetcheckmerk, 'kleur' , '=');
 }
 elseif(isset($_GET['merk'])){
     $zetcheckmerk = implode(" ",explode("|",$_GET['merk']));
@@ -146,6 +149,41 @@ if(isset($_GET['model'])&& isset($_GET['merk'])){
 
     ?>
     @foreach($values as $merk)
+            <?php 
+            if($checkvalue == $merk->value){
+            }
+            else{
+                $checkvalue= $merk->value;
+                $checkstring= explode(" ", $checkvalue);
+    
+                
+                        if($zetcheckvalue == $checkvalue){
+                            $implode=implode("|", $checkstring);
+                            merk($implode, $checkvalue, 'value', 'checked'); //dit is als die gecheked is
+                        }
+                        else{
+                            $implode=implode("|", $checkstring);
+                            merk($implode, $checkvalue, 'value', 'unchecked');
+                        }  
+            }
+            ?>
+    
+    @endforeach
+    <?php
+    ;}
+?>
+
+</div>
+</div>
+<div class="menu-sort">
+<div class="sort">
+<?php
+
+
+if(isset($_GET['model'])&& isset($_GET['merk'])){
+
+    ?>
+    @foreach($kleur as $merk)
             <?php 
             if($checkvalue == $merk->value){
             }
