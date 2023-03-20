@@ -42,7 +42,30 @@ use Illuminate\Support\Facades\DB;
         <span class='check'></span>
         </label>
         </div>";
+    
     };
+
+    function tabeles($merk, $checkmerk, $zetcheckmerk){
+        
+        if($checkmerk == $merk){
+        }
+        else{
+            $checkmerk= $merk;
+            $checkstring= explode(" ", $checkmerk);
+            if($checkmerk == 'Sony Ericsson'){}
+            else{
+                    if($zetcheckmerk == $checkmerk){
+                    
+                        $implode=implode("|", $checkstring);
+                        merk($implode, $checkmerk, 'merk', 'checked'); //dit is als die gecheked is
+                    }
+                    else{
+                        $implode=implode("|", $checkstring);
+                        merk($implode, $checkmerk, 'merk', 'unchecked');
+                    }  
+                }
+        }
+    }
     // Hier boven zijn alle functies die we nodig hebben vort de filter kan mischien beter een functie weer alleen niet hoe.
 
 if(!$_GET){
@@ -87,25 +110,10 @@ else{
 <div class="sort">
 
     @foreach($product as $merk)
-            <?php 
-            if($checkmerk == $merk->brand){
-            }
-            else{
-                $checkmerk= $merk->brand;
-                $checkstring= explode(" ", $checkmerk);
-                if($checkmerk == 'Sony Ericsson'){}
-                else{
-                        if($zetcheckmerk == $checkmerk){
-                        
-                            $implode=implode("|", $checkstring);
-                            merk($implode, $checkmerk, 'merk', 'checked'); //dit is als die gecheked is
-                        }
-                        else{
-                            $implode=implode("|", $checkstring);
-                            merk($implode, $checkmerk, 'merk', 'unchecked');
-                        }  
-                    }
-            }
+            <?php
+            tabeles($merk->brand,$checkmerk, $zetcheckmerk) ;
+            $checkmerk= $merk->brand;
+
             ?>
 
     @endforeach
@@ -119,22 +127,9 @@ if(isset($_GET['merk'])){
 ?>
 @foreach($models as $merk)
         <?php 
-        if($checkmodel == $merk->model){
-        }
-        else{
-            $checkmodel= $merk->model;
-            $checkstring= explode(" ", $checkmodel);
+                    tabeles($merk->model,$checkmerk, $zetcheckmodel) ;
+                    $checkmodel= $merk->model;
 
-            
-                    if($zetcheckmodel == $checkmodel){
-                        $implode=implode("|", $checkstring);
-                        merk($implode, $checkmodel, 'model', 'checked'); //dit is als die gecheked is
-                    }
-                    else{
-                        $implode=implode("|", $checkstring);
-                        merk($implode, $checkmodel, 'model', 'unchecked');
-                    }  
-        }
         ?>
 
 @endforeach
@@ -150,22 +145,9 @@ if(isset($_GET['model'])&& isset($_GET['merk'])){
     ?>
     @foreach($values as $merk)
             <?php 
-            if($checkvalue == $merk->value){
-            }
-            else{
-                $checkvalue= $merk->value;
-                $checkstring= explode(" ", $checkvalue);
-    
-                
-                        if($zetcheckvalue == $checkvalue){
-                            $implode=implode("|", $checkstring);
-                            merk($implode, $checkvalue, 'value', 'checked'); //dit is als die gecheked is
-                        }
-                        else{
-                            $implode=implode("|", $checkstring);
-                            merk($implode, $checkvalue, 'value', 'unchecked');
-                        }  
-            }
+                        tabeles($merk->value,$checkvalue, $zetcheckvalue) ;
+                        $checkvalue= $merk->value;
+            
             ?>
     
     @endforeach
@@ -185,22 +167,9 @@ if(isset($_GET['model'])&& isset($_GET['merk'])){
     ?>
     @foreach($kleur as $merk)
             <?php 
-            if($checkvalue == $merk->value){
-            }
-            else{
-                $checkvalue= $merk->value;
-                $checkstring= explode(" ", $checkvalue);
-    
-                
-                        if($zetcheckvalue == $checkvalue){
-                            $implode=implode("|", $checkstring);
-                            merk($implode, $checkvalue, 'value', 'checked'); //dit is als die gecheked is
-                        }
-                        else{
-                            $implode=implode("|", $checkstring);
-                            merk($implode, $checkvalue, 'value', 'unchecked');
-                        }  
-            }
+                        tabeles($merk->value,$checkvalue, $zetcheckvalue) ;
+                        $checkvalue= $merk->value;
+            
             ?>
     
     @endforeach
