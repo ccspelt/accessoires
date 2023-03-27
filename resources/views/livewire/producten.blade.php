@@ -85,6 +85,21 @@ elseif(isset($_GET['merk'])){
     }
 
 }
+elseif(isset($_GET['toestel'])){
+    $toestel=$_GET['toestel'];
+
+    
+    $products = DB::table('externalproducts')
+    ->select('externalproducts.brand', 'externalproducts.product_type', 'externalproducts.supplier_product_code', 'externalproducts.model', 'externalproductcompatibles.device_model', 'externalproductimages.url')
+    ->join('externalproductcompatibles','externalproducts.supplier_product_code','=','externalproductcompatibles.supplier_product_code')
+    ->rightjoin('externalproductimages','externalproducts.supplier_product_code','=','externalproductimages.supplier_product_code')
+    ->where('product_type','=','Accessoire')
+    ->where('stock','>',0)
+    ->where('device_model','=',$toestel)
+    ->distinct()
+    ->limit(51)
+    ->get();
+}
 
 else{
     $products = DB::table('externalproducts')

@@ -10,15 +10,31 @@ use Illuminate\Support\Facades\DB;
     $checkmerk= '';//niet weg halen anders doet de code het niet meer
     $checkmodel='';
     $checkvalue='';
-    
+    $toestel = DB::table('externalproductcompatibles')
+    ->select( 'externalproductcompatibles.device_model' )
+    //->join('externalproducts','externalproductcompatibles.supplier_product_code','=','externalproducts.supplier_product_code')
+    //->join('externalproductdetails','externalproductdetails.supplier_product_code','=','externalproducts.supplier_product_code')
+    ->distinct()
+    //->where('product_type','=','Accessoire')
+    //->where('brand','=', $checkmerk)
+    //->where('stock','>', 0)
+    //->where('externalproductdetails.name', '=','Bescherming van zijde')
+    ->orderBy('device_brand')
+    //->limit(10)
+    ->get();
     
     function searchproducts($checkmerk){
-        $models = DB::table('externalproducts')
-    ->select('externalproducts.model', 'externalproducts.supplier_product_code')
+        $models = DB::table('externalproductcompatibles')
+    ->select('externalproducts.model', 'externalproducts.supplier_product_code', 'externalproductcompatibles.device_model' )
+    ->join('externalproducts','externalproductcompatibles.supplier_product_code','=','externalproducts.supplier_product_code')
+    //->join('externalproductdetails','externalproductdetails.supplier_product_code','=','externalproducts.supplier_product_code')
+    ->distinct()
     ->where('product_type','=','Accessoire')
     ->where('brand','=', $checkmerk)
     ->where('stock','>', 0)
-    ->orderBy('brand')
+    //->where('externalproductdetails.name', '=','Bescherming van zijde')
+    ->orderBy('device_model')
+    ->limit(3)
     ->get();
     return $models;
     };
@@ -45,7 +61,7 @@ use Illuminate\Support\Facades\DB;
     
     };
 
-    function tabeles($merk, $checkmerk, $zetcheckmerk){
+    function tabeles($merk, $checkmerk, $zetcheckmerk, $soort){
         
         if($checkmerk == $merk){
         }
@@ -57,11 +73,11 @@ use Illuminate\Support\Facades\DB;
                     if($zetcheckmerk == $checkmerk){
                     
                         $implode=implode("|", $checkstring);
-                        merk($implode, $checkmerk, 'merk', 'checked'); //dit is als die gecheked is
+                        merk($implode, $checkmerk, $soort, 'checked'); //dit is als die gecheked is
                     }
                     else{
                         $implode=implode("|", $checkstring);
-                        merk($implode, $checkmerk, 'merk', 'unchecked');
+                        merk($implode, $checkmerk, $soort, 'unchecked');
                     }  
                 }
         }
@@ -101,13 +117,24 @@ else{
     $zetcheckmodel='';
 }
 ?>
-<div class="menu-sort">
+<!-- <div class="menu-sort">
 <div class="sort">
 
     @foreach($product as $merk)
             <?php
-            tabeles($merk->brand,$checkmerk, $zetcheckmerk) ;
-            $checkmerk= $merk->brand;
+            //tabeles($merk->brand,$checkmerk, $zetcheckmerk, 'merk') ;
+            //$checkmerk= $merk->brand;
+            ?>
+    @endforeach
+</div>
+</div> -->
+<div class="menu-sort">
+<div class="sort">
+
+    @foreach($toestel as $merk)
+            <?php
+            tabeles($merk->device_model,$checkmerk, $zetcheckmerk, 'toestel') ;
+            $checkmerk= $merk->device_model;
             ?>
     @endforeach
 </div>
@@ -119,8 +146,8 @@ if(isset($_GET['merk'])){
 ?>
 @foreach($models as $merk)
         <?php 
-                    tabeles($merk->model,$checkmerk, $zetcheckmodel) ;
-                    $checkmodel= $merk->model;
+                    tabeles($merk->device_model,$checkmodel, $zetcheckmodel, 'model') ;
+                    $checkmodel= $merk->device_model;
         ?>
 @endforeach
 </div>
@@ -134,7 +161,7 @@ if(isset($_GET['model'])&& isset($_GET['merk'])){
     ?>
     @foreach($values as $merk)
             <?php 
-                        tabeles($merk->value,$checkvalue, $zetcheckvalue) ;
+                        tabeles($merk->value,$checkvalue, $zetcheckvalue, 'value') ;
                         $checkvalue= $merk->value;
             ?>
     @endforeach
@@ -151,7 +178,7 @@ if(isset($_GET['model'])&& isset($_GET['merk'])){
     ?>
     @foreach($kleur as $merk)
             <?php 
-                        tabeles($merk->value,$checkvalue, $zetcheckvalue) ;
+                        tabeles($merk->value,$checkvalue, $zetcheckvalue, 'kleur') ;
                         $checkvalue= $merk->value;
             
             ?>
