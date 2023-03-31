@@ -12,15 +12,13 @@ use Illuminate\Support\Facades\DB;
     $checkvalue='';
     $toestel = DB::table('externalproductcompatibles')
     ->select( 'externalproductcompatibles.device_model' )
-    //->join('externalproducts','externalproductcompatibles.supplier_product_code','=','externalproducts.supplier_product_code')
-    //->join('externalproductdetails','externalproductdetails.supplier_product_code','=','externalproducts.supplier_product_code')
-    ->distinct()
+    ->join('externalproducts','externalproducts.supplier_product_code','=','externalproductcompatibles.supplier_product_code')
+    //->distinct()
     //->where('product_type','=','Accessoire')
     //->where('brand','=', $checkmerk)
-    //->where('stock','>', 0)
-    //->where('externalproductdetails.name', '=','Bescherming van zijde')
-    ->orderBy('device_brand')
-    //->limit(10)
+    ->where('stock','>', 0)
+    //->orderBy('device_model')
+    ->limit(7030)
     ->get();
     
     function searchproducts($checkmerk){
@@ -30,10 +28,10 @@ use Illuminate\Support\Facades\DB;
     //->join('externalproductdetails','externalproductdetails.supplier_product_code','=','externalproducts.supplier_product_code')
     ->distinct()
     ->where('product_type','=','Accessoire')
-    ->where('brand','=', $checkmerk)
+    ->where('device_model','=', $checkmerk)
     ->where('stock','>', 0)
     //->where('externalproductdetails.name', '=','Bescherming van zijde')
-    ->orderBy('device_model')
+    //->orderBy('device_model')
     ->limit(3)
     ->get();
     return $models;
@@ -42,8 +40,9 @@ use Illuminate\Support\Facades\DB;
         $values = DB::table('externalproducts')
     ->select('externalproducts.model', 'externalproducts.supplier_product_code', 'externalproductspecifications.value', 'externalproductspecifications.name')
     ->join('externalproductspecifications','externalproducts.supplier_product_code','=','externalproductspecifications.supplier_product_code')
+    //->leftJoin('externalproductcompatibles','externalproducts.supplier_product_code','=','externalproductcompatibles.supplier_product_code')
     ->where('product_type','=','Accessoire')
-    ->where('brand','=', $checkvalue)
+    //->where('device_model','=', $checkvalue)
     ->where('name', $a, $name)
     ->where('stock','>', 0)
     ->orderBy('value')
@@ -105,12 +104,13 @@ elseif(isset($_GET['model']) && isset($_GET['merk'])){
     $values =searchvalues($zetcheckmerk, 'l', '!=' );
     $kleur= searchvalues($zetcheckmerk, 'kleur' , '=');
 }
-elseif(isset($_GET['merk'])){
-    $zetcheckmerk = implode(" ",explode("|",$_GET['merk']));
+elseif(isset($_GET['toestel'])){
+    $zetcheckmerk = implode(" ",explode("|",$_GET['toestel']));
     $zetcheckmodel='';
     $zetcheckvalue = '';
     $models= searchproducts($zetcheckmerk);
-
+    $values =searchvalues($zetcheckmerk, 'l', '!=' );
+    $kleur= searchvalues($zetcheckmerk, 'kleur' , '=');
 }
 else{
     $zetcheckmerk = '';
@@ -139,43 +139,33 @@ else{
     @endforeach
 </div>
 </div>
-<div class="menu-sort">
-<div class="sort">
-<?php 
-if(isset($_GET['merk'])){
-?>
-@foreach($models as $merk)
-        <?php 
-                    tabeles($merk->device_model,$checkmodel, $zetcheckmodel, 'model') ;
-                    $checkmodel= $merk->device_model;
-        ?>
-@endforeach
-</div>
-</div>
-<div class="menu-sort">
-<div class="sort">
+
 <?php
-;}
-if(isset($_GET['model'])&& isset($_GET['merk'])){
+
+if(isset($_GET['toestel'])){
 
     ?>
+    <div class="menu-sort">
+<div class="sort">
     @foreach($values as $merk)
             <?php 
                         tabeles($merk->value,$checkvalue, $zetcheckvalue, 'value') ;
                         $checkvalue= $merk->value;
             ?>
     @endforeach
+    </div>
+</div>
     <?php
     ;}
 ?>
-</div>
-</div>
-<div class="menu-sort">
-<div class="sort">
+
+
 <?php
-if(isset($_GET['model'])&& isset($_GET['merk'])){
+if(isset($_GET['toestel'])){
 
     ?>
+    <div class="menu-sort">
+<div class="sort">
     @foreach($kleur as $merk)
             <?php 
                         tabeles($merk->value,$checkvalue, $zetcheckvalue, 'kleur') ;
@@ -184,8 +174,8 @@ if(isset($_GET['model'])&& isset($_GET['merk'])){
             ?>
     
     @endforeach
+    </div>
+</div>
     <?php
     ;}
 ?>
-</div>
-</div>

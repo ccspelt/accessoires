@@ -25,21 +25,20 @@
     ->limit(51)
     ->get();
 }
-elseif(isset($_GET['merk'])&& isset($_GET['model'])&& isset($_GET['value'])){
-    $zetcheckmerk = explode('|',$_GET['merk']);
-    $implodecheckmerk = implode(" " ,$zetcheckmerk);
-    $zetcheckmodel = explode('|',$_GET['model']);
+elseif(isset($_GET['toestel'])&& isset($_GET['value'])){
+
+    $zetcheckmodel = explode('|',$_GET['toestel']);
     $implodecheckmodel = implode(" ; "  ,$zetcheckmodel);
     $zetcheckvalue = explode('|',$_GET['value']);
     $implodecheckvalue = implode(" ; "  ,$zetcheckvalue);
-   
     $products = DB::table('externalproducts')
-    ->select('externalproducts.brand', 'externalproducts.product_type', 'externalproducts.supplier_product_code', 'externalproducts.model', 'externalproductimages.url', 'externalproductspecifications.value', )
-    ->join('externalproductimages','externalproducts.supplier_product_code','=','externalproductimages.supplier_product_code')
+    ->select('externalproducts.brand', 'externalproducts.product_type', 'externalproducts.supplier_product_code', 'externalproducts.model', 'externalproductspecifications.value' )
     ->join('externalproductspecifications','externalproducts.supplier_product_code','=','externalproductspecifications.supplier_product_code')
+    //->join('externalproductimages','externalproducts.supplier_product_code','=','externalproductimages.supplier_product_code')
+    ->leftJoin('externalproductcompatibles','externalproducts.supplier_product_code','=','externalproductcompatibles.supplier_product_code')
     ->where('product_type','=','Accessoire')
     ->where('stock','>', 0)
-    ->where('brand','=', $implodecheckmerk)
+    ->where('device_model','=', $implodecheckmodel)
     ->where('value', '=', $implodecheckvalue)
     //->where('model', '= ', $implodecheckmodel)
     ->limit(51)
@@ -53,7 +52,7 @@ elseif(isset($_GET['merk'])&& isset($_GET['model'])){
     
    
     $products = DB::table('externalproducts')
-    ->select('externalproducts.brand', 'externalproducts.product_type', 'externalproducts.supplier_product_code', 'externalproducts.model', 'externalproductimages.url', )
+    ->select('externalproducts.brand', 'externalproducts.product_type', 'externalproducts.supplier_product_code', 'externalproducts.model', 'externalproductimages.url')
     ->join('externalproductimages','externalproducts.supplier_product_code','=','externalproductimages.supplier_product_code')
     ->where('product_type','=','Accessoire')
     ->where('stock','>', 0)
@@ -87,18 +86,15 @@ elseif(isset($_GET['merk'])){
 }
 elseif(isset($_GET['toestel'])){
     $toestel=$_GET['toestel'];
-
-    
-    $products = DB::table('externalproducts')
-    ->select('externalproducts.brand', 'externalproducts.product_type', 'externalproducts.supplier_product_code', 'externalproducts.model', 'externalproductcompatibles.device_model', 'externalproductimages.url')
-    ->join('externalproductcompatibles','externalproducts.supplier_product_code','=','externalproductcompatibles.supplier_product_code')
-    ->rightjoin('externalproductimages','externalproducts.supplier_product_code','=','externalproductimages.supplier_product_code')
-    ->where('product_type','=','Accessoire')
-    ->where('stock','>',0)
-    ->where('device_model','=',$toestel)
-    ->distinct()
-    ->limit(51)
-    ->get();
+    $products =DB::table('externalproducts')
+->select('externalproducts.brand', 'externalproducts.product_type', 'externalproducts.supplier_product_code', 'externalproducts.model', 'externalproductcompatibles.device_model')
+->leftJoin('externalproductcompatibles','externalproducts.supplier_product_code','=','externalproductcompatibles.supplier_product_code')
+//->rightJoin('externalproductimages','externalproducts.supplier_product_code','=','externalproductimages.supplier_product_code')
+->where('product_type','=','Accessoire')
+->where('stock','>',0)
+->where('device_model','=',$toestel)
+->limit(510)
+->get();
 }
 
 else{
@@ -124,7 +120,7 @@ else{
         
         <?php 
         echo "<b>" . $product->model . "</b>";
-        echo '<a href=https://www.youtube.com/watch?v=sI0VSWzK8qU&t=5s&ab_channel=spoonkid2> <img src=' . $product->url . '></a>' ;
+        //echo '<a href=https://www.youtube.com/watch?v=sI0VSWzK8qU&t=5s&ab_channel=spoonkid2> <img src=' . $product->url . '></a>' ;
         ?>
         
         </div>
