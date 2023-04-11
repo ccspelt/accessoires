@@ -13,12 +13,13 @@ use Illuminate\Support\Facades\DB;
     $toestel = DB::table('externalproductcompatibles')
     ->select( 'externalproductcompatibles.device_model' )
     ->join('externalproducts','externalproducts.supplier_product_code','=','externalproductcompatibles.supplier_product_code')
-    //->distinct()
-    //->where('product_type','=','Accessoire')
-    //->where('brand','=', $checkmerk)
+    ->distinct()
+    ->where('product_type','=','Accessoire')
+    //->where('device_brand','=', 'samsung')
     ->where('stock','>', 0)
-    //->orderBy('device_model')
-    ->limit(7030)
+    ->where('externalproducts.supplier_product_code','=', '18165')
+    //->orderBy('device_brand')
+    ->limit(50)
     ->get();
     
     function searchproducts($checkmerk){
@@ -27,24 +28,25 @@ use Illuminate\Support\Facades\DB;
     ->join('externalproducts','externalproductcompatibles.supplier_product_code','=','externalproducts.supplier_product_code')
     //->join('externalproductdetails','externalproductdetails.supplier_product_code','=','externalproducts.supplier_product_code')
     ->distinct()
-    ->where('product_type','=','Accessoire')
+    //->where('product_type','=','Accessoire')
     ->where('device_model','=', $checkmerk)
-    ->where('stock','>', 0)
+    ->where('stock','<', 0)
     //->where('externalproductdetails.name', '=','Bescherming van zijde')
     //->orderBy('device_model')
     ->limit(3)
     ->get();
     return $models;
     };
-    function searchvalues($checkvalue, $name, $a){
-        $values = DB::table('externalproducts')
-    ->select('externalproducts.model', 'externalproducts.supplier_product_code', 'externalproductspecifications.value', 'externalproductspecifications.name')
-    ->join('externalproductspecifications','externalproducts.supplier_product_code','=','externalproductspecifications.supplier_product_code')
+    function searchvalues($checkmerk, $name, $a){
+        $values = DB::table('externalproductcompatibles')
+    ->select( 'externalproductspecifications.value', 'externalproductspecifications.name')
+    ->join('externalproductspecifications','externalproductcompatibles.supplier_product_code','=','externalproductspecifications.supplier_product_code')
     //->leftJoin('externalproductcompatibles','externalproducts.supplier_product_code','=','externalproductcompatibles.supplier_product_code')
-    ->where('product_type','=','Accessoire')
+    //->where('product_type','=','Accessoire')
     //->where('device_model','=', $checkvalue)
+    ->where('device_model','=', $checkmerk)
     ->where('name', $a, $name)
-    ->where('stock','>', 0)
+    //->where('stock','>', 0)
     ->orderBy('value')
     ->get();
     return $values;
@@ -85,36 +87,56 @@ use Illuminate\Support\Facades\DB;
 
 if(!$_GET){
     $zetcheckmerk='';
-    $zetcheckmodel='';
+    $zetcheckcolor = '' ;
     $zetcheckvalue='';
 }
-elseif(isset($_GET['model']) && isset($_GET['merk'])&& isset($_GET['value'])){
-    $zetcheckmodel = implode(" ",explode("|",$_GET['model']));
-    $zetcheckmerk = implode(" ",explode("|",$_GET['merk']));
-    $zetcheckvalue = implode(" ",explode("|",$_GET['value']));
-    $models= searchproducts($zetcheckmerk);
-    $values =searchvalues($zetcheckmerk, 'l', '!=');
-    $kleur= searchvalues($zetcheckmerk, 'kleur' , '=');
-}
-elseif(isset($_GET['model']) && isset($_GET['merk'])){
-    $zetcheckmodel = implode(" ",explode("|",$_GET['model']));
-    $zetcheckmerk = implode(" ",explode("|",$_GET['merk']));
+elseif(isset($_GET['toestel']) && isset($_GET['bescherming']) && isset ($_GET['kleur'])){
+    $zetcheckcolor = implode(" ",explode("|",$_GET['kleur']));
+    $zetcheckmerk = implode(" ",explode("|",$_GET['toestel']));
     $zetcheckvalue = '';
+    $zetcheckbescherming= implode(" ",explode("|",$_GET['bescherming']));
     $models= searchproducts($zetcheckmerk);
     $values =searchvalues($zetcheckmerk, 'l', '!=' );
     $kleur= searchvalues($zetcheckmerk, 'kleur' , '=');
+    $bescherming= searchvalues($zetcheckmerk, 'Bescherming van zijde' , '=');
+
+}
+elseif(isset($_GET['toestel']) && isset($_GET['bescherming'])){
+    $zetcheckcolor = '' ;
+    $zetcheckmerk = implode(" ",explode("|",$_GET['toestel']));
+    $zetcheckvalue = '';
+    $zetcheckbescherming= implode(" ",explode("|",$_GET['bescherming']));
+    $models= searchproducts($zetcheckmerk);
+    $values =searchvalues($zetcheckmerk, 'l', '!=' );
+    $kleur= searchvalues($zetcheckmerk, 'kleur' , '=');
+    $bescherming= searchvalues($zetcheckmerk, 'Bescherming van zijde' , '=');
+
+}
+
+elseif(isset($_GET['toestel'])&& isset($_GET['kleur'])){
+    $zetcheckmerk = implode(" ",explode("|",$_GET['toestel']));
+    $zetcheckcolor = implode(" ",explode("|",$_GET['kleur']));
+    $zetcheckvalue = '';
+    $zetcheckbescherming= '';
+    $models= searchproducts($zetcheckmerk);
+    $values =searchvalues($zetcheckmerk, 'l', '!=' );
+    $kleur= searchvalues($zetcheckmerk, 'kleur' , '=');
+    $bescherming= searchvalues($zetcheckmerk, 'Bescherming van zijde' , '=');
+
 }
 elseif(isset($_GET['toestel'])){
     $zetcheckmerk = implode(" ",explode("|",$_GET['toestel']));
-    $zetcheckmodel='';
     $zetcheckvalue = '';
+    $zetcheckcolor = '' ;
+    $zetcheckbescherming='';
     $models= searchproducts($zetcheckmerk);
     $values =searchvalues($zetcheckmerk, 'l', '!=' );
     $kleur= searchvalues($zetcheckmerk, 'kleur' , '=');
+    $bescherming= searchvalues($zetcheckmerk, 'Bescherming van zijde' , '=');
 }
 else{
     $zetcheckmerk = '';
-    $zetcheckmodel='';
+
 }
 ?>
 <!-- <div class="menu-sort">
@@ -147,17 +169,20 @@ if(isset($_GET['toestel'])){
     ?>
     <div class="menu-sort">
 <div class="sort">
-    @foreach($values as $merk)
+@foreach($bescherming as $merk)
             <?php 
-                        tabeles($merk->value,$checkvalue, $zetcheckvalue, 'value') ;
+                        tabeles($merk->value,$checkvalue, $zetcheckbescherming, 'bescherming van zijde') ;
                         $checkvalue= $merk->value;
+            
             ?>
+    
     @endforeach
+   
     </div>
 </div>
     <?php
-    ;}
-?>
+  ;}
+?> 
 
 
 <?php
@@ -168,7 +193,7 @@ if(isset($_GET['toestel'])){
 <div class="sort">
     @foreach($kleur as $merk)
             <?php 
-                        tabeles($merk->value,$checkvalue, $zetcheckvalue, 'kleur') ;
+                        tabeles($merk->value,$checkvalue, $zetcheckcolor, 'kleur') ;
                         $checkvalue= $merk->value;
             
             ?>
