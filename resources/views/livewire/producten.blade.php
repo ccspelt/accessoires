@@ -1,5 +1,3 @@
-
-    
  <?php
  use Illuminate\Support\Facades\DB;
 
@@ -7,7 +5,7 @@
 
  function paktacc($table, $zetcheckmodel){
     $tel=count($table);
-
+echo $table;
     if($tel= 1){
     $products = DB::table('externalproducts')
     ->select('externalproducts.brand', 'externalproducts.product_type', 'externalproducts.supplier_product_code', 'externalproducts.model', 'externalproductspecifications.value', 'externalproductimages.url')
@@ -250,12 +248,11 @@ else{
 
         @foreach($products as $product)
         <div class="product">
-        
         <?php 
-        echo "<b>" . $product->model . "</b>";
-        echo '<a > <img src=' . $product->url . '></a>' ;
-        //var_dump($implodecheckbescherming)
         
+        echo '<a href=http://127.0.0.1:8000/product?code=' . $product->supplier_product_code . '> <img src=' . $product->url . '></a>' ;
+        echo '<a href=http://127.0.0.1:8000/product?code=' . $product->supplier_product_code . '>' . $product->model . "</a>";
+        //var_dump($implodecheckbescherming)
         ?>
         
         </div>

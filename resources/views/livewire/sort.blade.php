@@ -311,13 +311,16 @@ if(isset($_GET['toestel'])){
 <div class="sort">
 @foreach($sort as $value)
     <div class='phone_brand_wrapper'>    
-        <label class='merk_label'> 
+        <label class='merk_label'>
+            <label for="opties"></label>
+            <select name="" id="">
         <?php
-        acctable($value,$zetchecksort);
-        echo $sortvalue[$sortcount];
+        echo  '<option>' . acctable($value,$zetchecksort) . '</option>';
+        echo '<option>' . $sortvalue[$sortcount] . '</option>';
         $sortcount++;
         ?>
-        <span class='check'></span>
+            <span class='check'></span>
+            </select>
         </label>
     </div>
     

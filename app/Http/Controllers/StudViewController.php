@@ -13,9 +13,9 @@ class UserController extends Controller
      */
     public function index(): View
     {
-        $products = DB::table('product')->get();
- 
-        return view('user.index', ['product' => $products]);
+        return view('user.index', [
+            'product' => DB::table('product')->paginate(20)
+        ]);
     }
 
     public function card($item)

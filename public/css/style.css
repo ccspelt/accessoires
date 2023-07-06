@@ -14,8 +14,7 @@ body {
 }
 
 .container{
-    padding-right: 15px ;
-    padding-left: 15px;
+
     margin-right: auto;
     margin-left: auto;
 }
@@ -43,15 +42,12 @@ body {
 
 .main{
     display: flex;
-    padding-top: 2%;
-    width: 1260px;
 }
 
 .basis{
-
    /* background-color: aqua; */
     display: flex;
-    width: 1260px;
+
 }
 
 div.letop{
@@ -224,125 +220,256 @@ div.logo::before{
     border-right: 2px solid #f7b000;
     display: inline-block;
     right: -10px;
- 
-}
 
-.products{
+}
+ .products{
     display: flex;
-    width: 90%;
-    padding-left: 5px;
     flex-wrap: wrap;
-    height: max-content;
-
-}
-
+    justify-content: space-between;
+    margin-left: 4px;
+} 
 .product{
-    width: 32.33%;
+    display: grid;
+    column-gap: 20px;
+    row-gap: 20px;
+    width: 29%;
     height: auto;
-    margin-left: 1px;
-
+    padding-right: 10px; 
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 10px;
+}
+.product:hover{
+    display:grid;
+    border-width: 2px;                      
+    border-radius: 30px 3px 30px;
+    border-color: lightgrey;
+    border-style: solid;
+    padding-right: 10px; 
+    padding-top: 10px;
+    padding-bottom: 25px;
+    padding-left: 8px;
+}
+.kopen{
+    background-color: darkblue;
+    align-content: right;
+    color: white;
+    font-size: 20px;
+    padding: 3px 6px;
+    border-radius:6px;
+}
+.kopen:hover{
+    background-color: #f7b000;
+}
+.prijs{
+    font-size: 25px;
 }
 .acc_img{
-    margin-top: 10px;
-    align-self: center;
-border-radius: 20px 20px 20px 20px;
-    width: 1260px;
+margin-top: 10px;
 }
-
 img{
 vertical-align: middle;
-
 }
-.banner{
-    display: flex;
+.sort{  
+    margin: 15px 20px 50px 100px;
+    position: sticky;
+    border-style: solid;
+    background-color: #2196F3;
 }
-
-.menus{
-    width: 22%;
-
+.phone_brand_wrapper{
+    color: black;
 }
-.menu-sort{
-    background-color: #dbfbfc;
-    display: flex;
-    padding:4px 0 40px 7px ;
-    bottom: 14px;
-    border-radius: 14px;
-    width: 100%;
-    overflow-y: scroll;
-    height:400px
-    
-}
-
-input.merk{
-    padding-left: 50px;
-}
-.sort{
-    /* display: flex; */
-    height: 80px;
-}
-
 .merk_label{
-    display: block;
-    position: relative;
-    padding-left: 55px;
+    display: block; 
+    position: relative; 
+    padding-left: 45px;
     margin-bottom: 12px;
-
+    overflow: visible;
+    padding-right: 14px;
+    border: black;
+    border-width: 2px;
 }
-  
+
 .merk_label input{
     position: absolute;
     opacity: 0;
     cursor: pointer;
-    font-size: 15px;
 }
-
-.check{
+ .check{
     position: absolute;
     top: 0;
-    left: 0px;
+    left: -15px;
     height: 25px;
     width: 50px;
     background-color: white;
     border-radius: 16px;
-    transition:  0.4s;
+    border-color: #000;
+} 
+.opties{
+    padding-left: 10px;
+    padding-bottom: 25px;
+}
+.menu-sort{
+    background-size: 25%;
+    border: 2px solid black;
+    padding-top: 0px;
+    background-color: #2196F3;
+    border-radius: 17px;
 }
 
+.phone_brand_wrapper{
+    font-size: 20px;
+    border: 2px #000;
+}
 .merk_label:hover input ~ .check {
-    background-color: #efeeee;
-    transition: 0s;
+    background-color: #ccc;
+    border: 2px black;
 }
 
 .merk_label input:checked ~ .check{
-    background-color: #ef1d1e;
-    transition: 0.8s;
+    background-color: #1263a6;
+    border:2px #000;
 }
 
 .check:after {
     content: "";
     position: absolute;
     display: none;
-    transition: 0s;
+    border: 2px black;
 }
 
 
 .sort .check:after {
     display: block;
-    top: 8px;
+    top: 9px;
    left: 9;
    width: 9px;
    height: 9px;
    border-radius: 50%;
-   background: #ef1d1e;
-   transition:  0.8s;
+   background: #2196F3;
 }
 
 .sort input:checked ~ .check:after {
     display: block;
-    top: 8px;
-   left: 30px;
-   width: 9px;
-   height: 9px;
-   border-radius: 50%;
-   background: white;
-   transition:  0.8s;
+    top: 9px;
+    left: 9;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: white;
+}
+
+* {box-sizing: border-box}
+body {font-family: Verdana, sans-serif; margin:0}
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+.mySlides {
+  display: grid;
+  width:50%;
+  margin-left: auto;
+  margin-right: auto; 
+}
+img {vertical-align: middle;}
+  /* Slideshow container */
+.slideshow-container {
+  display:grid;
+  max-width: 650px;
+  position: relative;
+  margin: 0%;
+  border-width: 3px;
+  border-radius: 3px 3px 30px; 
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 20px;
+  padding-top:20px;
+}
+  /* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: grey;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+  /* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+  /* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+background-color: rgba(0,0,0,0.8);
+}
+  /* Caption text */
+.text {
+  display: grid;
+  grid-column-start: 1;
+  grid-column-end: 1;
+  grid-row-start:2;
+  grid-row-end: 3;
+  color: black;
+  font-size: 15px;
+  padding: 8px 12px;
+  bottom: 8px;
+  width: 75%;
+  margin: 0%;
+}
+.toev-winkmnd{
+    padding-top: 150px;
+    padding-right: 100px;
+}
+.ondr-wmnd{
+    color: red;
+}
+  /* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+  /* Fading animation */
+.fade {
+animation-name: fade;
+animation-duration: 0.5s;
+}
+.column {
+float: left;
+width: 16.66%;
+}
+.winkelmand {
+font-size:20px;
+background-color:lightgreen;
+border:3px;
+border-radius: 12px;
+padding: 10px 20px;
+}
+
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+  /* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev, .next,.text {font-size: 11px}
 }
