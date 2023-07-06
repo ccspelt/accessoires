@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\SortController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-    Route::get('', [App\http\Controllers\SortController::class, 'index']);
-
+//Routes to redirect to the / accesoires page and to a specific product page.
+Route::get('/accessoires', function () { return view('acc_view');});
+Route::get('/product', function () { return view('product_specifiek/acc_pagina');});
+Route::get('/index', [App\http\Controllers\SortController::class, 'index']);
